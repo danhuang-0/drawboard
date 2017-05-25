@@ -1,5 +1,10 @@
 package drawboard.MenuPane;
 
+/*
+ * 字体，字号选择面板
+ * Creator: Owen
+ */
+
 import java.awt.Dimension;
 
 import javax.swing.*;

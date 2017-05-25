@@ -1,5 +1,9 @@
 package drawboard.MenuPane;
 
+/*
+ * 颜色选择面板
+ * Creator: Owen
+ */
 
 import java.awt.*;
 import java.awt.event.*;

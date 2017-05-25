@@ -1,5 +1,10 @@
 package drawboard.MenuPane;
 
+/*
+ * 画图工具选择面板
+ * Creator: Owen
+ */
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -15,14 +20,6 @@ public class DrawToolPane extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton button = (JButton)e.getSource();
-			
-			// selected 方式区分已选工具
-//			selectedButton.setSelected(false);
-//			button.setSelected(true);
-			
-			// 背景颜色方式区分已选工具
-//			selectedButton.setBackground(null);
-//			button.setBackground(Color.GRAY);
 			
 			selectedButton.setBorder(null);
 			button.setBorder(BorderFactory.createLoweredBevelBorder());
