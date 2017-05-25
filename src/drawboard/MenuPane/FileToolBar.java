@@ -1,4 +1,4 @@
-package drawboard;
+package drawboard.MenuPane;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

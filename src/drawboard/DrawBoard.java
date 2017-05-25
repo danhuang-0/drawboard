@@ -3,6 +3,8 @@ package drawboard;
 import java.awt.*;
 import javax.swing.*;
 
+import drawboard.MenuPane.*;
+
 public class DrawBoard {
 	
 	Container contentPane = null;
@@ -12,18 +14,22 @@ public class DrawBoard {
 	public DrawBoard() {
 		JFrame frame = new JFrame("画板程序");
 		contentPane = frame.getContentPane();
-//		contentPane.setLayout(new FlowLayout(FlowLayout.LEFT));
-//		contentPane.setLayout(null);
+		
+		contentPane.setBackground(Color.lightGray);
 
-		// 往frame中添加组件
-//		contentPane.add(new ButtonPane(buttons));
-//		contentPane.add(new ColorPane(colors));
-		JPanel manuePane = new JPanel(new BorderLayout());
-		manuePane.add(new FileToolBar(), BorderLayout.NORTH);
-		manuePane.add(new DrawToolBar());
+		// 往frame中添加组件: 菜单组件，包括 文件操作， 绘图工具面板， 字体面板， 颜色面板
+		JPanel menuPane = new JPanel(new BorderLayout());
+		menuPane.add(new FileToolBar(), BorderLayout.NORTH);
+		menuPane.add(new DrawToolPane(), BorderLayout.WEST);
+		menuPane.add(new FontSelectPane(), BorderLayout.CENTER);
+		menuPane.add(new ColorSelectPane(), BorderLayout.EAST);
+		contentPane.add(menuPane, BorderLayout.NORTH);
 		
-		contentPane.add(manuePane, BorderLayout.NORTH);
+		JPanel drawPane = new JPanel();
+		drawPane.setBackground(Color.WHITE);
+		contentPane.add(drawPane, BorderLayout.WEST);
 		
+		frame.setMinimumSize(new Dimension(1000, 600));
 		frame.pack();
 		frame.setVisible(true);
 		frame.setSize(1000, 600);
