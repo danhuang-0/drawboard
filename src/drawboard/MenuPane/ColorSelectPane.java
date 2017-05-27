@@ -25,7 +25,7 @@ public class ColorSelectPane extends JPanel {
 			JButton btn = (JButton)e.getSource();
 			Color c = btn.getBackground();
 			selectedColorPane.setBackground(c);
-			ConfigInstance.getInstance().setShapeColor(c);
+			ConfigInstance.getInstance().setShapeColor(c); 
 		}
 	};
 	
