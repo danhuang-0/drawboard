@@ -8,13 +8,14 @@ package drawboard;
 import java.awt.*;
 import javax.swing.*;
 
-import drawboard.DrawPane.DrawPane;
+import drawboard.DrawPane.*;
 import drawboard.MenuPane.*;
 
-public class DrawBoard {
+public class DrawBoard extends JFrame {
+	private static final long serialVersionUID = 9098572509081568811L;
 	
 	Container contentPane = null;
-
+	
 	public DrawBoard() {
 		JFrame frame = new JFrame("假装自己是CAD ╮(╯▽╰)╭");
 		contentPane = frame.getContentPane();
@@ -27,8 +28,8 @@ public class DrawBoard {
 		frame.setVisible(true);
 		frame.setSize(1000, 800);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		
 	}
-	
 	
 	public static void main(String[] args) {
 		new DrawBoard();

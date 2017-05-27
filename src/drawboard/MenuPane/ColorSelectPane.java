@@ -10,6 +10,8 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import drawboard.ConfigInstance;
+
 public class ColorSelectPane extends JPanel {
 	private static final long serialVersionUID = -7060372174270416988L;
 	
@@ -23,18 +25,19 @@ public class ColorSelectPane extends JPanel {
 			JButton btn = (JButton)e.getSource();
 			Color c = btn.getBackground();
 			selectedColorPane.setBackground(c);
+			ConfigInstance.getInstance().setShapeColor(c);
 		}
 	};
 	
 	public ColorSelectPane() {
 
 		selectedColorPane = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		selectedColorPane.setBackground(Color.BLACK);
+		selectedColorPane.setBackground(colors[0]);
 		selectedColorPane.setPreferredSize(new Dimension(35, 35));
 		selectedColorPane.setToolTipText("当前已选颜色");
 		this.add(selectedColorPane);
 		
-		
+		ConfigInstance.getInstance().setShapeColor(colors[0]);
 		
 		JPanel colorSelection = new JPanel(new GridLayout(2, 5, 2, 2));
 		for (Color color : colors) {

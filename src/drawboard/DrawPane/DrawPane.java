@@ -11,10 +11,11 @@ public class DrawPane extends JPanel {
 		this.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
 		this.setBackground(Color.GRAY);
 		
-		JPanel canvas = new JPanel();
+		JPanel canvas = new Canvas();
 		canvas.setBackground(Color.WHITE);
 		canvas.setPreferredSize(new Dimension(800, 600));
 		this.add(canvas);
+		
 	}
 
 }
