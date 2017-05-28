@@ -32,7 +32,8 @@ public class DrawToolPane extends JPanel {
 		}
 	};
 	
-	private String[] buttonTitles = {"鼠标", "直线", "曲线", "圆形", "矩形", "文字"};
+	private String[] buttonTitles = {"鼠标", "直线", "圆形", "矩形", "文字"};
+//	private String[] buttonTitles = {"鼠标", "直线", "曲线", "圆形", "矩形", "文字"};
 
 	public DrawToolPane() {
 		ConfigInstance.getInstance().setShapeType(buttonTitles[0]);
@@ -48,9 +49,11 @@ public class DrawToolPane extends JPanel {
 		JButton button = new JButton(title);
 		button.setFont(new Font("Default", Font.PLAIN, 14));
 		button.setBackground(null);
-		button.setPreferredSize(new Dimension(80, 50));
+		button.setPreferredSize(new Dimension(70, 50));
 		button.setMargin(new Insets(0, 20, 0, 20));
 		button.addActionListener(action);
+		button.setBorder(null);
+		button.setFocusPainted(false);
 		return button;
 	}
 }

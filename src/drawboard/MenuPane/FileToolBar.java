@@ -51,11 +51,11 @@ public class FileToolBar extends JToolBar {
 	
 	private JButton createButton(String title) {
 		JButton button = new JButton(title);
-//		button.setToolTipText(title);
 		button.setSize(new Dimension(60, 60));
 		button.setBackground(null);
 		button.setBorderPainted(false);
-		button.setFont(new Font("Default", 0, 14));
+		button.setFont(new Font("Default", Font.PLAIN, 14));
+		button.setFocusPainted(false);
 		button.addActionListener(action);
 		
 		return button;

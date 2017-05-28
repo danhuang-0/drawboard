@@ -1,6 +1,7 @@
 package drawboard;
 
 import java.awt.Color;
+import java.awt.Font;
 
 /*
  * 单例，用于存储 画图相关的设置
@@ -11,10 +12,9 @@ public class ConfigInstance {
 	private static ConfigInstance instance = null;
 	
 	private String ShapeType = null;
-	private String TextFont = null;
-	private String TextFontSize = null;
 	private Color ShapeColor = null;
-	private int StrokeWidth = 1;
+	private int StrokeWidth = 20;
+	private Font font = null;
 	
 	public static ConfigInstance getInstance() {
 		if (instance == null) {
@@ -29,25 +29,15 @@ public class ConfigInstance {
 
 	public void setShapeType(String shapeType) {
 		ShapeType = shapeType;
-//		System.out.println(this.toString() + shapeType);
+		System.out.println(this.toString() + shapeType);
 	}
 
-	public String getTextFont() {
-		return TextFont;
+	public void setFont(Font font) {
+		this.font = font;
 	}
-
-	public void setTextFont(String textFont) {
-//		System.out.println(this.toString() + textFont);
-		TextFont = textFont;
-	}
-
-	public String getTextFontSize() {
-		return TextFontSize;
-	}
-
-	public void setTextFontSize(String textFontSize) {
-//		System.out.println(this.toString() + textFontSize);
-		TextFontSize = textFontSize;
+	
+	public Font getFont() {
+		return font;
 	}
 
 	public Color getShapeColor() {

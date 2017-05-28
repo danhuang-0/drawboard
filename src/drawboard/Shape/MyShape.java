@@ -6,6 +6,7 @@ public class MyShape  {
 
 	private Point startPoint;
 	private Point endPoint;
+	private Point offsetPoint = new Point(0, 0);
 	
 	private Color 	strokeColor;
 	private int 	strokeWidth;
@@ -20,10 +21,10 @@ public class MyShape  {
 		this.strokeWidth = strokeWidth;
 	}
 	
-	public static MyShape createShape(Point startPoint, Point endPoint, Color strokeColor, int strokeWidth) {
-		return new MyShape(startPoint, endPoint, strokeColor, strokeWidth);
+	public boolean isContainPoint(Point point) {
+		return false;
 	}
-
+	
 	public String getShapeType() {
 		return shapeType;
 	}
@@ -63,7 +64,19 @@ public class MyShape  {
 	public void setStrokeWidth(int strokeWidth) {
 		this.strokeWidth = strokeWidth;
 	}
+	
+	public Point getOffsetPoint() {
+		return offsetPoint;
+	}
+	
+	public void setOffsetPoint(Point offsetPoint) {
+		this.offsetPoint = offsetPoint;
+		startPoint.x += offsetPoint.x;
+		startPoint.y += offsetPoint.y;
+		endPoint.x += offsetPoint.x;
+		endPoint.y += offsetPoint.y;
+	}
 
-	public void draw(Graphics g) { }
+	public void draw(Graphics2D g) {}
 	
 }
