@@ -1,4 +1,4 @@
-package drawboard.MenuPane;
+package menuPane;
 
 /*
  * 画图工具选择面板
@@ -10,7 +10,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import drawboard.*;
+import handler.*;
 
 public class DrawToolPane extends JPanel {
 	private static final long serialVersionUID = -30717208852257554L;
@@ -45,12 +45,13 @@ public class DrawToolPane extends JPanel {
 //	private String[] buttonTitles = {"鼠标", "直线", "曲线", "圆形", "矩形", "文字"};
 
 	public DrawToolPane() {
-		ConfigInstance.getInstance().setCallBack(new DrawToolCallBack() {
-			
+		
+		ConfigInstance.getInstance().addCallBack(this.getClass().getName(), new CallBackHandlerAdapter() {
 			@Override
 			public void action() {
 				resetButtonStyle();
 			}
+			
 		});
 		
 		for (String string : buttonTitles) {

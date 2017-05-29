@@ -1,9 +1,9 @@
-package drawboard;
+package handler;
 
 import java.awt.Color;
 import java.awt.Font;
-
-import drawboard.DrawPane.Canvas;
+import java.util.HashMap;
+import drawPane.Controller.Canvas;
 
 /**
  * 单例模式，存储图形相关属性
@@ -24,7 +24,7 @@ public class ConfigInstance {
 	
 	private String drawContent = null;
 
-	private DrawToolCallBack callBack = null;
+	private HashMap<String, CallBackHandlerListener> callBacks = new HashMap<String, CallBackHandlerListener>();
 	
 	public static ConfigInstance getInstance() {
 		if (instance == null) {
@@ -100,20 +100,20 @@ public class ConfigInstance {
 		tipPane.setConfigMsg(strBuf.toString());
 	}
 	
-	public void setCallBack(DrawToolCallBack callBack) {
-		this.callBack = callBack;
-	}
-	
-	public DrawToolCallBack getCallBack() {
-		return callBack;
-	}
-	
 	public void setDrawContent(String drawContent) {
 		this.drawContent = drawContent;
 	}
 	
 	public String getDrawContent() {
 		return drawContent;
+	}
+	
+	public void addCallBack(String className, CallBackHandlerListener handler) {
+		this.callBacks.put(className, handler);
+	}
+	
+	public CallBackHandlerListener getCallBack(String className) {
+		return this.callBacks.get(className);
 	}
 
 }

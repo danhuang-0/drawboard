@@ -1,4 +1,4 @@
-package drawboard.DrawPane;
+package drawPane.Controller;
 
 import java.awt.*;
 

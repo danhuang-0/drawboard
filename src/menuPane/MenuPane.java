@@ -1,4 +1,4 @@
-package drawboard.MenuPane;
+package menuPane;
 
 import java.awt.*;
 

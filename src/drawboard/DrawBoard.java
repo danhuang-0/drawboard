@@ -8,8 +8,9 @@ package drawboard;
 import java.awt.*;
 import javax.swing.*;
 
-import drawboard.DrawPane.*;
-import drawboard.MenuPane.*;
+import drawPane.Controller.DrawPane;
+import handler.TipPaneInstance;
+import menuPane.MenuPane;
 
 public class DrawBoard extends JFrame {
 	private static final long serialVersionUID = 9098572509081568811L;

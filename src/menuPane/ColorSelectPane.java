@@ -1,4 +1,4 @@
-package drawboard.MenuPane;
+package menuPane;
 
 /*
  * 颜色选择面板
@@ -10,7 +10,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import drawboard.ConfigInstance;
+import handler.ConfigInstance;
 
 public class ColorSelectPane extends JPanel {
 	private static final long serialVersionUID = -7060372174270416988L;

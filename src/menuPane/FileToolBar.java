@@ -1,4 +1,4 @@
-package drawboard.MenuPane;
+package menuPane;
 
 /*
  * 文件操作面板

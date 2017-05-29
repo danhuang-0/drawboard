@@ -1,4 +1,4 @@
-package drawboard.MenuPane;
+package menuPane;
 
 /*
  * 字体，字号选择面板
@@ -10,7 +10,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import drawboard.ConfigInstance;
+import handler.ConfigInstance;
 
 public class FontSelectPane extends JPanel {
 	private static final long serialVersionUID = -4006429527505209932L;

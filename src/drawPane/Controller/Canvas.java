@@ -1,4 +1,4 @@
-package drawboard.DrawPane;
+package drawPane.Controller;
 
 import java.awt.*;
 import java.lang.reflect.Constructor;
@@ -7,8 +7,8 @@ import java.util.HashMap;
 
 import javax.swing.*;
 
-import drawboard.*;
-import drawboard.Shape.*;
+import drawPane.Model.*;
+import handler.*;
 
 public class Canvas extends JPanel {
 	private static final long serialVersionUID = 6517769642159055885L;
@@ -113,7 +113,7 @@ public class Canvas extends JPanel {
 			}
 		}
 		
-		ConfigInstance.getInstance().getCallBack().action();
+		
 		sendShapeMsg();
 	}
 	

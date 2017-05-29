@@ -1,4 +1,4 @@
-package drawboard.Shape;
+package drawPane.Model;
 
 /**
  * 暂时没用上

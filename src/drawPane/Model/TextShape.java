@@ -1,8 +1,8 @@
-package drawboard.Shape;
+package drawPane.Model;
 
 import java.awt.*;
 
-import drawboard.ConfigInstance;
+import handler.ConfigInstance;
 
 public class TextShape extends MyShape {
 
