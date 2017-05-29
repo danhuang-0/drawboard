@@ -8,6 +8,8 @@ public class TextShape extends MyShape {
 
 	public TextShape(Point startPoint, Point endPoint, Color strokeColor, int strokeWidth) {
 		super(startPoint, endPoint, strokeColor, strokeWidth);
+		
+		setShapeType("文字");
 	}
 
 	@Override

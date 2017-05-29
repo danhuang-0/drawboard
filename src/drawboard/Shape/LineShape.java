@@ -6,7 +6,7 @@ public class LineShape extends MyShape {
 
 	public LineShape(Point startPoint, Point endPoint, Color strokeColor, int strokeWidth) {
 		super(startPoint, endPoint, strokeColor, strokeWidth);
-		setShapeType(this.getClass().getName());
+		setShapeType("直线");
 	}
 
 	@Override

@@ -13,7 +13,7 @@ public class RectangleShape extends MyShape {
 	public RectangleShape(Point startPoint, Point endPoint, Color strokeColor, int strokeWidth) {
 		super(startPoint, endPoint, strokeColor, strokeWidth);
 		
-		setShapeType(this.getClass().getName());
+		setShapeType("矩形");
 	}
 	
 	@Override

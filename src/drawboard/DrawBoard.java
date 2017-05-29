@@ -22,12 +22,14 @@ public class DrawBoard extends JFrame {
 		
 		contentPane.add(new MenuPane(), BorderLayout.NORTH);
 		contentPane.add(new DrawPane(), BorderLayout.CENTER);
+		contentPane.add(TipPaneInstance.getInstance(), BorderLayout.SOUTH);
 		
 		frame.setMinimumSize(new Dimension(900, 800));
 		frame.pack();
 		frame.setVisible(true);
 		frame.setSize(1000, 800);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		
 		
 	}
 	

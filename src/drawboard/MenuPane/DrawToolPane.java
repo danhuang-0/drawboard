@@ -10,25 +10,34 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import drawboard.ConfigInstance;
+import drawboard.*;
 
 public class DrawToolPane extends JPanel {
 	private static final long serialVersionUID = -30717208852257554L;
 	
-	private JButton selectedButton = new JButton();
+	private JButton selectedButton = null;
+	private JButton defaultButton = null;
 	
 	private final ActionListener action = new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JButton button = (JButton)e.getSource();
-			
+			JButton btn = (JButton)e.getSource();
 			selectedButton.setBorder(null);
-			button.setBorder(BorderFactory.createLoweredBevelBorder());
+			selectedButton = btn;
+			btn.setBorder(BorderFactory.createLoweredBevelBorder());
 			
-			selectedButton = button;
+			ConfigInstance.getInstance().setShapeType(btn.getActionCommand());
 			
-			ConfigInstance.getInstance().setShapeType(e.getActionCommand());
+			if (e.getActionCommand().equals("文字")) {
+				JFrame newFrame = new JFrame("请输入内容");
+				TextField textField = new TextField();
+				newFrame.add(textField);
+				
+				newFrame.pack();
+				newFrame.setVisible(true);
+				
+			}
 		}
 	};
 	
@@ -36,13 +45,19 @@ public class DrawToolPane extends JPanel {
 //	private String[] buttonTitles = {"鼠标", "直线", "曲线", "圆形", "矩形", "文字"};
 
 	public DrawToolPane() {
-		ConfigInstance.getInstance().setShapeType(buttonTitles[0]);
+		ConfigInstance.getInstance().setCallBack(new DrawToolCallBack() {
+			
+			@Override
+			public void action() {
+				resetButtonStyle();
+			}
+		});
 		
 		for (String string : buttonTitles) {
 			JButton button = createButton(string);
 			this.add(button);
 		}
-		
+				
 	}
 
 	private JButton createButton (String title) {
@@ -54,6 +69,19 @@ public class DrawToolPane extends JPanel {
 		button.addActionListener(action);
 		button.setBorder(null);
 		button.setFocusPainted(false);
+		
+		if (defaultButton == null) {
+			defaultButton = button;
+			selectedButton = button;
+			button.setBorder(BorderFactory.createLoweredBevelBorder());
+		}
+		
 		return button;
+	}
+	
+	public void resetButtonStyle() {
+		selectedButton.setBorder(null);
+		defaultButton.setBorder(BorderFactory.createLoweredBevelBorder());
+		ConfigInstance.getInstance().setShapeType(defaultButton.getActionCommand());
 	}
 }

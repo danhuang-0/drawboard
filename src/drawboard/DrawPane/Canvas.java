@@ -4,7 +4,6 @@ import java.awt.*;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import javax.swing.*;
 
@@ -18,7 +17,7 @@ public class Canvas extends JPanel {
 	private ArrayList<MyShape> allShapes = new ArrayList<MyShape>();
 	private HashMap<String, Class<? extends MyShape>> shapeTypes = new HashMap<String, Class<? extends MyShape>>();
 	private MyShape newShape;
-	private MyShape moveShape;
+	private MyShape selectedShape;
 	
 	private Point startPoint = new Point(0, 0);
 	private Point endPoint = new Point(0, 0);
@@ -31,12 +30,17 @@ public class Canvas extends JPanel {
 	public Canvas() {
 		this.addMouseListener(handler);
 		this.addMouseMotionListener(handler);
+		this.addMouseWheelListener(handler);
+		Toolkit.getDefaultToolkit().addAWTEventListener(handler, AWTEvent.KEY_EVENT_MASK);
 		
 		shapeTypes.put("直线", LineShape.class);
 		shapeTypes.put("曲线", CurveShape.class);
 		shapeTypes.put("圆形", OvalShape.class);
 		shapeTypes.put("矩形", RectangleShape.class);
 		shapeTypes.put("文字", TextShape.class);
+		
+		ConfigInstance.getInstance().setCanvas(this);
+		sendShapeMsg();
 	}
 	
 	public void mousePressed(Point point) {
@@ -59,7 +63,8 @@ public class Canvas extends JPanel {
 				newShape = (MyShape) constructor.newInstance(new Object[]{startPoint, endPoint, shapeColor, strokeWidth});
 				
 				if (newShape != null) {
-					allShapes.add(0, newShape);
+					allShapes.add(newShape);
+					selectedShape = newShape;
 				}
 			} catch (Exception e) {
 				System.out.println("----------------------------");
@@ -67,13 +72,16 @@ public class Canvas extends JPanel {
 				System.out.println("----------------------------");
 			}
 		} else {
-			for (MyShape myShape : allShapes) {
+			for (int i = allShapes.size(); i > 0; i--) {
+				MyShape myShape = allShapes.get(i-1);
 				if (myShape.isContainPoint(point)) {
-					moveShape = myShape;
+					selectedShape = myShape;
 					break;
 				}
+				selectedShape = null;
 			}
 		}
+		sendShapeMsg();
 	}
 	
 	// 鼠标拖动
@@ -85,13 +93,14 @@ public class Canvas extends JPanel {
 				repaint();
 			}
 		} else {
-			if (moveShape != null) {
+			if (selectedShape != null) {
 				Point p = new Point(point.x - startPoint.x, point.y - startPoint.y);
-				moveShape.setOffsetPoint(p);
+				selectedShape.setOffsetPoint(p);
 				repaint();
 				startPoint = point;
 			}
 		}
+		sendShapeMsg();
 	}
 	
 	// 鼠标松开
@@ -102,9 +111,27 @@ public class Canvas extends JPanel {
 				newShape.setEndPoint(endPoint);
 				repaint();
 			}
-		} else {
-			System.out.println(newShape.isContainPoint(point));
 		}
+		
+		ConfigInstance.getInstance().getCallBack().action();
+		sendShapeMsg();
+	}
+	
+	public void mouseWheelMoved(int strokeWidth) {
+		if (selectedShape != null) {
+			selectedShape.setStrokeWidth(strokeWidth);
+			repaint();
+		}
+		sendShapeMsg();
+	}
+	
+	// 颜色类型变化
+	public void ColorChanged() {
+		if (selectedShape != null) {
+			selectedShape.setStrokeColor(ConfigInstance.getInstance().getShapeColor());
+			repaint();
+		}
+		sendShapeMsg();
 	}
 	
 	@Override
@@ -113,7 +140,25 @@ public class Canvas extends JPanel {
 		for (MyShape myShape : allShapes) {
 			myShape.draw((Graphics2D)g);
 		}
+	}
+	
+	private void sendShapeMsg() {
+		TipPaneInstance tipPane = TipPaneInstance.getInstance();
+		StringBuffer msg = new StringBuffer();
 		
+		if (this.selectedShape != null) {
+			msg.append("已选择图形: " + this.selectedShape.getShapeType());
+		} else {
+			msg.append("未选择图形");
+		}
+		msg.append(";    ");
+		
+		if (endPoint.x != 0 && endPoint.y != 0) {
+			msg.append(" 鼠标结束位置: (" + endPoint.x + "," + endPoint.y + ")")
+				.append(";    ");
+		}
+		
+		tipPane.setShapeMsg(msg.toString());
 	}
 	
 }
