@@ -69,8 +69,19 @@ public class PaintHandler implements
 	 */
 	@Override
 	public void eventDispatched(AWTEvent event) {
-		if (((KeyEvent)event).getID() == KeyEvent.KEY_PRESSED) {
-			System.out.println(((KeyEvent)event).getKeyCode());
+		KeyEvent keyEvent = (KeyEvent)event;
+		if (keyEvent.getID() == KeyEvent.KEY_PRESSED) {
+			switch (Character.toLowerCase(keyEvent.getKeyChar())) {
+			case 's':
+				canvas.saveCanvas();
+				break;
+			case 'd':
+				canvas.removeSelectedObject();
+				break;
+
+			default:
+				break;
+			}
 		}
 	}
 

@@ -79,6 +79,10 @@ public class ConfigInstance {
 		this.canvas = canvas;
 	}
 	
+	public Canvas getCanvas() {
+		return canvas;
+	}
+	
 	private void sendConfigMsg() {
 		TipPaneInstance tipPane = TipPaneInstance.getInstance();
 		

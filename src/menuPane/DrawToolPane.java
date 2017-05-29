@@ -41,12 +41,12 @@ public class DrawToolPane extends JPanel {
 		}
 	};
 	
-	private String[] buttonTitles = {"鼠标", "直线", "圆形", "矩形", "文字"};
-//	private String[] buttonTitles = {"鼠标", "直线", "曲线", "圆形", "矩形", "文字"};
+//	private String[] buttonTitles = {"鼠标", "直线", "圆形", "矩形", "文字"};
+	private String[] buttonTitles = {"鼠标", "直线", "曲线", "圆形", "矩形", "文字"};
 
 	public DrawToolPane() {
 		
-		ConfigInstance.getInstance().addCallBack(this.getClass().getName(), new CallBackHandlerAdapter() {
+		ConfigInstance.getInstance().addCallBack(this.getClass().getName(), new CallBackHandlerListener() {
 			@Override
 			public void action() {
 				resetButtonStyle();
@@ -83,6 +83,7 @@ public class DrawToolPane extends JPanel {
 	public void resetButtonStyle() {
 		selectedButton.setBorder(null);
 		defaultButton.setBorder(BorderFactory.createLoweredBevelBorder());
+		selectedButton = defaultButton;
 		ConfigInstance.getInstance().setShapeType(defaultButton.getActionCommand());
 	}
 }

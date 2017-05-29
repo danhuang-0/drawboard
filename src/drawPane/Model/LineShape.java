@@ -3,6 +3,7 @@ package drawPane.Model;
 import java.awt.*;
 
 public class LineShape extends MyShape {
+	private static final long serialVersionUID = -1913438900560679716L;
 
 	public LineShape(Point startPoint, Point endPoint, Color strokeColor, int strokeWidth) {
 		super(startPoint, endPoint, strokeColor, strokeWidth);

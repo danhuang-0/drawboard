@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 public class RectangleShape extends MyShape {
+	private static final long serialVersionUID = 1643924841896520455L;
 	
 	private Point topLeft = null;
 //	private Point bottomRight = null;

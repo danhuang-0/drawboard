@@ -1,9 +1,11 @@
 package drawPane.Model;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class MyShape  {
-
+public class MyShape implements Serializable  {
+	private static final long serialVersionUID = -3766997127384112770L;
+	
 	private Point startPoint;
 	private Point endPoint;
 	private Point offsetPoint = new Point(0, 0);

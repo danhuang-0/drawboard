@@ -11,17 +11,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class FileToolBar extends JToolBar {
+import drawPane.Controller.Canvas;
+import handler.ConfigInstance;
+
+public class FileToolBar extends JToolBar implements ActionListener {
 	private static final long serialVersionUID = -5699127170145353535L;
-	
-	private ActionListener action = new ActionListener() {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (e.getActionCommand().equals("关闭")) {
-				System.exit(0);
-			}
-		}
-	};
 	
 	String[] ToolBarTips = {"文件", "  |  "};
 	String[] ToolBarTitles = {"新建", "打开", "保存", "另存为", "关闭"};
@@ -56,9 +50,31 @@ public class FileToolBar extends JToolBar {
 		button.setBorderPainted(false);
 		button.setFont(new Font("Default", Font.PLAIN, 14));
 		button.setFocusPainted(false);
-		button.addActionListener(action);
+		button.addActionListener(this);
 		
 		return button;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Canvas canvas = ConfigInstance.getInstance().getCanvas();
+		switch (e.getActionCommand()) {
+		case "新建":
+			canvas.newCanvas();
+			break;
+		case "打开":
+			canvas.openCanvas();
+			break;
+		case "保存":
+			canvas.saveCanvas();
+			break;
+		case "另存为":
+			canvas.saveAsCanvas();
+			break;
+		case "关闭":
+			canvas.closeCanvas();
+			break;
+		}		
 	}
 	
 	

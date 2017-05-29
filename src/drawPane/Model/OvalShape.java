@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
 public class OvalShape extends MyShape {
+	private static final long serialVersionUID = -6231462219370327352L;
 	
 	private int x;
 	private int y;
