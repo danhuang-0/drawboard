@@ -29,15 +29,15 @@ public class DrawToolPane extends JPanel {
 			
 			ConfigInstance.getInstance().setShapeType(btn.getActionCommand());
 			
-			if (e.getActionCommand().equals("文字")) {
-				JFrame newFrame = new JFrame("请输入内容");
-				TextField textField = new TextField();
-				newFrame.add(textField);
-				
-				newFrame.pack();
-				newFrame.setVisible(true);
-				
-			}
+//			if (e.getActionCommand().equals("文字")) {
+//				JFrame newFrame = new JFrame("请输入内容");
+//				TextField textField = new TextField();
+//				newFrame.add(textField);
+//				
+//				newFrame.pack();
+//				newFrame.setVisible(true);
+//				
+//			}
 		}
 	};
 	
