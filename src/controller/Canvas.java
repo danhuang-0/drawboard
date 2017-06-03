@@ -226,8 +226,6 @@ public class Canvas extends JPanel {
 	}
 	
 	public void openCanvas() {
-		
-		
 		if (!isSaved) {
 			int msgResult = showMessage("图像未保存，是否先进行保存操作？");
 			if (msgResult == JOptionPane.YES_OPTION) {
@@ -248,19 +246,20 @@ public class Canvas extends JPanel {
 							new FileInputStream(file)
 							);
 					
-					while(true) {
+					int shapeCount = objInputStream.readInt();
+					for (int i = 0; i < shapeCount; i++) {
 						MyShape shape = (MyShape)objInputStream.readObject();
 						allShapes.add(shape);
-						repaint();
 					}
+					repaint();
 				} 
 				catch (IOException e) {
 //					e.printStackTrace();
-					System.out.println("openCanvas  " + e.getMessage());
+					System.out.println("ERROR: openCanvas  " + e.getMessage());
 				} 
 				catch (ClassNotFoundException e) {
 //					e.printStackTrace();
-					System.out.println("openCanvas  " + e.getMessage());
+					System.out.println("ERROR: openCanvas  " + e.getMessage());
 				}			
 			}
 		}
@@ -284,13 +283,15 @@ public class Canvas extends JPanel {
 			objOutStream = new ObjectOutputStream(
 					new FileOutputStream(file)
 					);
+			// 对象个数
+			objOutStream.writeInt(allShapes.size());
 			for (MyShape myShape : allShapes) {
 				objOutStream.writeObject(myShape);
 			}
 			
 			isSaved = true;
 		} catch (Exception e) { 
-			System.out.println("saveCanvas  " + e.getMessage());
+			System.out.println("ERROR: saveCanvas  " + e.getMessage());
 		}
 		
 		sendShapeMsg();
@@ -417,8 +418,10 @@ public class Canvas extends JPanel {
 	
 	public void setTextFont(Font textFont) {
 		this.textFont = textFont;
-		System.out.println(textFont.toString());
-		repaint();
+		if (selectedShape != null) {
+			selectedShape.setTextFont(textFont);
+			repaint();
+		}
 	}
 	public Font getTextFont() {
 		return textFont;

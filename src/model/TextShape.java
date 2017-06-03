@@ -36,18 +36,12 @@ public class TextShape extends MyShape {
 	@Override
 	public boolean isContainPoint(Point point) {
 		boolean isContain = stringBounds.contains(point);
-		System.out.println(stringBounds.toString());
-		System.out.println(point.toString());
-		
-		System.out.println(isContain);
-		
 		return isContain;
 	}
 	
 	@Override
 	public void setOffsetPoint(Point offsetPoint) {
 		super.setOffsetPoint(offsetPoint);
-		System.out.println(offsetPoint.toString());
 	}
 	
 }
