@@ -67,16 +67,8 @@ public class PaintHandler implements
 	public void eventDispatched(AWTEvent event) {
 		KeyEvent keyEvent = (KeyEvent)event;
 		if (keyEvent.getID() == KeyEvent.KEY_PRESSED) {
-			switch (Character.toLowerCase(keyEvent.getKeyChar())) {
-			case 's':
-				canvas.saveCanvas();
-				break;
-			case 'd':
+			if (keyEvent.getKeyCode() == KeyEvent.VK_DELETE) {
 				canvas.removeSelectedObject();
-				break;
-
-			default:
-				break;
 			}
 		}
 	}
