@@ -43,7 +43,7 @@ public class Canvas extends JPanel {
 	 // 图像的各种属性
 	private String shapeType;
 	private Color shapeColor;
-	private int shapeStrokeWidth = 20;
+	private int shapeStrokeWidth = 10; // 初始比划宽度
 	private Font textFont;
 	private String textContent;
 	
@@ -54,7 +54,7 @@ public class Canvas extends JPanel {
 	public Canvas() {
 		
 		this.setBackground(Color.WHITE);
-		this.setPreferredSize(new Dimension(800, 600));
+		this.setPreferredSize(new Dimension(1000, 600));
 		
 		// 设置监听对象
 		this.addMouseListener(handler);
@@ -100,12 +100,13 @@ public class Canvas extends JPanel {
 		
 		Class<? extends MyShape> shapeClass = this.shapeTypes.get(shapeType);
 		
-		
 		isDrawing = shapeClass == null ? false : true;
 		
 		// 鼠标点击开始
 		if (isDrawing) {
 			// 处于绘图工具选项下的操作
+			endPoint = new Point(0, 0);
+			
 			try {
 				Constructor<? extends MyShape> constructor = shapeClass.getConstructor(new Class[]{Point.class, Point.class, Color.class, int.class});
 				newShape = (MyShape) constructor.newInstance(new Object[]{startPoint, endPoint, shapeColor, shapeStrokeWidth});
@@ -133,6 +134,7 @@ public class Canvas extends JPanel {
 				System.out.println("----------------------------");
 			}
 		} else {
+			// 除了画图状态，还有移动和缩放
 			for (int i = allShapes.size(); i > 0; i--) {
 				MyShape myShape = allShapes.get(i-1);
 				if (myShape.isContainPoint(point)) {
@@ -157,10 +159,17 @@ public class Canvas extends JPanel {
 			}
 		} else {
 			if (selectedShape != null) {
-				Point p = new Point(point.x - startPoint.x, point.y - startPoint.y);
-				selectedShape.setOffsetPoint(p);
+				if (shapeType.equals("移动")) {
+					// 移动时候的操作
+					Point p = new Point(point.x - startPoint.x, point.y - startPoint.y);
+					selectedShape.setOffsetPoint(p);
+					startPoint = point;
+				} else {
+					// 缩放时候的操作
+					selectedShape.setEndPoint(point);
+					
+				}
 				repaint();
-				startPoint = point;
 			}
 		}
 		

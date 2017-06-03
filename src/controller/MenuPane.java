@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 
 interface Action {
@@ -31,7 +32,8 @@ public class MenuPane extends JPanel implements ActionListener {
 	 * 画笔选择区域，显示所有可绘制的图形按钮
 	 */
 //	private String[] buttonTitles = {"鼠标", "直线", "圆形", "矩形", "文字"};
-	private String[] buttonTitles = {"鼠标", "直线", "曲线", "圆形", "矩形", "文字"};
+	private String[] buttonTitles = {"移动", "重绘", "直线", "曲线", "圆形", "矩形", "文字"};
+	ArrayList<JButton> toolButtons = new ArrayList<JButton>();
 	
 	/**
 	 * 字体选择区域，设置字体，字号，加粗，斜体属性
@@ -41,6 +43,7 @@ public class MenuPane extends JPanel implements ActionListener {
 	private JComboBox<String> fontComboBox;
 	private JComboBox<String> fontSizeComboBox;
 	private Font font = new Font("Default", Font.PLAIN, 12);
+	private ArrayList<JButton> fontStyleBtns = new ArrayList<JButton>();
 
 	
 	/**
@@ -48,9 +51,10 @@ public class MenuPane extends JPanel implements ActionListener {
 	 */
 	private Color[] colors = {Color.BLACK, Color.WHITE, Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.GRAY, Color.PINK, Color.ORANGE, Color.CYAN};
 	private JPanel selectedColorPane;
-
+	private ArrayList<JButton> colorBtns = new ArrayList<JButton>();
 	
-	ArrayList<ArrayList<JButton>> allButtons = new ArrayList<ArrayList<JButton>>();
+//	ArrayList<ArrayList<JButton>> allButtons = new ArrayList<ArrayList<JButton>>();
+
 
 
 	public MenuPane() {
@@ -106,7 +110,6 @@ public class MenuPane extends JPanel implements ActionListener {
 	private JPanel setUpDrawToolPane() {
 		JPanel toolPane = new JPanel();
 		
-		ArrayList<JButton> toolButtons = new ArrayList<JButton>();
 		for (String string : buttonTitles) {
 			JButton button = createButton(string, new Dimension(70, 50));
 			// 添加绘图动作
@@ -116,7 +119,6 @@ public class MenuPane extends JPanel implements ActionListener {
 			toolButtons.add(button);
 			
 		}
-		allButtons.add(toolButtons);
 		
 		return toolPane;
 	}
@@ -130,7 +132,7 @@ public class MenuPane extends JPanel implements ActionListener {
 		JPanel fontSelectPane = new JPanel();
 		
 		for (int i = 0; i < fontSizes.length; i++) {
-			fontSizes[i] = Integer.toString(12 + 2 * i);
+			fontSizes[i] = Integer.toString(20 + 4 * i);
 		}
 		
 		// 字体选择框
@@ -156,10 +158,8 @@ public class MenuPane extends JPanel implements ActionListener {
 		JButton italicBtn = createButton("I", new Dimension(30, 20));
 		fontStylePane.add(italicBtn);
 		
-		ArrayList<JButton> fontStyleBtns = new ArrayList<JButton>();
 		fontStyleBtns.add(boldBtn);
 		fontStyleBtns.add(italicBtn);
-		allButtons.add(fontStyleBtns);
 		
 		fontSelectPane.add(fontStylePane);
 
@@ -176,7 +176,6 @@ public class MenuPane extends JPanel implements ActionListener {
 				
 				font = new Font(fontName, fontBold | fontItalic, Integer.parseInt(fontSize));
 				canvas.setTextFont(font);
-				System.out.println(fontName);
 			}
 		};
 		
@@ -202,17 +201,15 @@ public class MenuPane extends JPanel implements ActionListener {
 		colorSelectPane.add(selectedColorPane);
 				
 		JPanel colorSelection = new JPanel(new GridLayout(2, 5, 2, 2));
-		ArrayList<JButton> colorButtons = new ArrayList<>();
 		for (Color color : colors) {
 			JButton button = createButton("", new Dimension(25, 25));
 			button.setActionCommand(color.toString());
 			button.setBackground(color);
 			colorSelection.add(button);
-			colorButtons.add(button);
+			colorBtns.add(button);
 			actions.put(color.toString(), new Action() { @Override public void doCmd() { canvas.setShapeColor(color); } });
 		}
 		colorSelectPane.add(colorSelection);
-		allButtons.add(colorButtons);
 		
 		return colorSelectPane;
 	}
@@ -251,24 +248,24 @@ public class MenuPane extends JPanel implements ActionListener {
 	
 	// 更改按钮样式
 	private void changeButtonStyle(JButton btn) {
-		for (int i = 0; i < allButtons.size(); i++) {
-			ArrayList<JButton> arrayList = allButtons.get(i);
-			if (!arrayList.contains(btn)) {
-				continue;
-			}
-			
-			if (i == allButtons.size() - 1) {
-				selectedColorPane.setBackground(btn.getBackground());
-				continue;
-			}
-			
-			for (JButton jButton : arrayList) {
+		// 画笔按钮
+		if (toolButtons.contains(btn)) {
+			for (JButton jButton : toolButtons) {
 				if (jButton.equals(btn)) {
 					jButton.setBorder(BorderFactory.createLoweredBevelBorder());
 				} else {
 					jButton.setBorder(null);
 				}
 			}
+		}
+		
+		if (fontStyleBtns.contains(btn)) {
+			Border border = btn.getBorder() == null ? BorderFactory.createLoweredBevelBorder() : null;
+			btn.setBorder(border);
+		}
+		
+		if (colorBtns.contains(btn)) {
+			selectedColorPane.setBackground(btn.getBackground());
 		}
 	}
 	
