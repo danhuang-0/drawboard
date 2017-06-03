@@ -12,8 +12,7 @@ package handler;
 import java.awt.AWTEvent;
 import java.awt.event.*;
 
-import drawPane.Controller.Canvas;
-import menuPane.DrawToolPane;
+import controller.Canvas;
 
 public class PaintHandler implements 
 	MouseListener, MouseMotionListener, MouseWheelListener, AWTEventListener {
@@ -43,7 +42,6 @@ public class PaintHandler implements
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		canvas.mouseReleased(e.getPoint());
-		ConfigInstance.getInstance().getCallBack(DrawToolPane.class.getName()).action();
 	}
 
 	@Override
@@ -58,9 +56,7 @@ public class PaintHandler implements
 	 */
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		int strokeWidth = ConfigInstance.getInstance().getStrokeWidth() - e.getWheelRotation();
-		ConfigInstance.getInstance().setStrokeWidth(strokeWidth);
-		canvas.mouseWheelMoved(ConfigInstance.getInstance().getStrokeWidth());
+		canvas.setShapeStrokeWidthOffset(-e.getWheelRotation());
 	}
 
 	

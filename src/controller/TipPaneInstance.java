@@ -1,4 +1,4 @@
-package handler;
+package controller;
 
 import java.awt.*;
 import javax.swing.*;

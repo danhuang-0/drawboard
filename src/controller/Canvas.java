@@ -1,4 +1,4 @@
-package drawPane.Controller;
+package controller;
 
 import java.awt.*;
 import java.io.*;
@@ -9,24 +9,27 @@ import java.util.HashMap;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
-import drawPane.Model.*;
+import controller.Canvas;
 import handler.*;
+import model.*;
 
 public class Canvas extends JPanel {
 	private static final long serialVersionUID = 6517769642159055885L;
 	
-	// 所有形状的数组
+	// 所有形状相关属性
 	private ArrayList<MyShape> allShapes = new ArrayList<MyShape>();
 	private HashMap<String, Class<? extends MyShape>> shapeTypes = new HashMap<String, Class<? extends MyShape>>();
 	private MyShape newShape;
 	private MyShape selectedShape;
 	
+	// 开始绘画时的起始终止点
 	private Point startPoint = new Point(0, 0);
 	private Point endPoint = new Point(0, 0);
 	
 	// handler 处理鼠标和键盘的事件
 	PaintHandler handler = new PaintHandler(this);
 	
+	// 是否处于绘画状态下
 	private boolean isDrawing = false;
 	
 	// 文件操作
@@ -36,11 +39,22 @@ public class Canvas extends JPanel {
 
 	private ObjectOutputStream objOutStream;	// 对象输出流
 	private ObjectInputStream objInputStream;	// 对象输入流
-
+	
+	 // 图像的各种属性
+	private String shapeType;
+	private Color shapeColor;
+	private int shapeStrokeWidth = 20;
+	private Font textFont;
+	private String textContent;
+	
+	
 	/**
 	 * Canva 的初始化操作
 	 */
 	public Canvas() {
+		
+		this.setBackground(Color.WHITE);
+		this.setPreferredSize(new Dimension(800, 600));
 		
 		// 设置监听对象
 		this.addMouseListener(handler);
@@ -55,13 +69,10 @@ public class Canvas extends JPanel {
 		shapeTypes.put("矩形", RectangleShape.class);
 		shapeTypes.put("文字", TextShape.class);
 		
-		// 给单例赋值
-		ConfigInstance.getInstance().setCanvas(this);
-		
 		// 给消息提示窗体发送提示内容
 		sendShapeMsg();
 		
-		// 文件选择窗口
+		// 文件选择窗口初始化
 		fileChooser = new JFileChooser("D:\\");
 		fileChooser.setFileFilter(new FileFilter() {
 			
@@ -86,13 +97,9 @@ public class Canvas extends JPanel {
 	 */
 	public void mousePressed(Point point) {
 		startPoint = point;		
-		ConfigInstance instance = ConfigInstance.getInstance();
-		Color shapeColor = instance.getShapeColor();
-		int strokeWidth = instance.getStrokeWidth();
 		
-		// 获取按钮按下的图形形状类型
-		String shapeType = instance.getShapeType();
 		Class<? extends MyShape> shapeClass = this.shapeTypes.get(shapeType);
+		
 		
 		isDrawing = shapeClass == null ? false : true;
 		
@@ -101,12 +108,25 @@ public class Canvas extends JPanel {
 			// 处于绘图工具选项下的操作
 			try {
 				Constructor<? extends MyShape> constructor = shapeClass.getConstructor(new Class[]{Point.class, Point.class, Color.class, int.class});
-				newShape = (MyShape) constructor.newInstance(new Object[]{startPoint, endPoint, shapeColor, strokeWidth});
+				newShape = (MyShape) constructor.newInstance(new Object[]{startPoint, endPoint, shapeColor, shapeStrokeWidth});
 				
-				if (newShape != null) {
-					allShapes.add(newShape);
-					selectedShape = newShape;
+				if (newShape == null) {
+					return;
 				}
+				
+				allShapes.add(newShape);
+				selectedShape = newShape;
+				
+				if (shapeType.equals("文字")) {
+					showTextInputDialog();
+					if (newShape != null) {
+						newShape.setTextFont(textFont);
+						newShape.setTextContent(textContent);
+					}
+					
+					repaint();
+				}
+				
 			} catch (Exception e) {
 				System.out.println("----------------------------");
 				e.printStackTrace();
@@ -143,6 +163,7 @@ public class Canvas extends JPanel {
 				startPoint = point;
 			}
 		}
+		
 		sendShapeMsg();
 		isSaved = false;
 	}
@@ -176,7 +197,6 @@ public class Canvas extends JPanel {
 	 */
 	public void ColorChanged() {
 		if (selectedShape != null) {
-			selectedShape.setStrokeColor(ConfigInstance.getInstance().getShapeColor());
 			repaint();
 		}
 		sendShapeMsg();
@@ -270,7 +290,6 @@ public class Canvas extends JPanel {
 			
 			isSaved = true;
 		} catch (Exception e) { 
-//			e.printStackTrace();
 			System.out.println("saveCanvas  " + e.getMessage());
 		}
 		
@@ -310,6 +329,21 @@ public class Canvas extends JPanel {
 	
 	
 	/**
+	 * 弹出文本输入框
+	 */
+	private void showTextInputDialog() {
+		String text = JOptionPane.showInputDialog(this, "", "请输入文本内容", JOptionPane.QUESTION_MESSAGE);
+		
+		if (text == null) {
+			allShapes.remove(newShape);
+			newShape = null;
+		} else {
+			this.textContent = text;
+		}
+	}
+	
+	
+	/**
 	 * 给窗口最底部的提示窗体提供消息内容
 	 */
 	private void sendShapeMsg() {
@@ -345,8 +379,10 @@ public class Canvas extends JPanel {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
+		
+		Graphics2D g2d = (Graphics2D)g;
 		for (MyShape myShape : allShapes) {
-			myShape.draw((Graphics2D)g);
+			myShape.draw(g2d);
 		}
 	}
 	
@@ -363,6 +399,52 @@ public class Canvas extends JPanel {
 			allShapes.remove(selectedShape);
 			repaint();
 		}
+	}
+	
+	/**
+	 * 各种属性的设置
+	 * @param shapeType
+	 */
+	
+	public void setShapeType(String shapeType) {
+		this.shapeType = shapeType;
+		repaint();
+	}
+	public String getShapeType() {
+		return shapeType;
+	}
+	
+	
+	public void setTextFont(Font textFont) {
+		this.textFont = textFont;
+		System.out.println(textFont.toString());
+		repaint();
+	}
+	public Font getTextFont() {
+		return textFont;
+	}
+
+
+	public void setShapeColor(Color color) {
+		this.shapeColor = color;
+		if (selectedShape != null) {
+			selectedShape.setStrokeColor(color);
+		}
+		repaint();
+	}
+	public Color getShapeColor() {
+		return shapeColor;
+	}
+	
+	
+	public void setShapeStrokeWidthOffset(int offset) {
+		if (selectedShape != null) {
+			selectedShape.setStrokeWidth(selectedShape.getStrokeWidth() + offset);
+		}
+		repaint();
+	}
+	public int getShapeStrokeWidth() {
+		return shapeStrokeWidth;
 	}
 	
 }

@@ -1,4 +1,4 @@
-package drawPane.Model;
+package model;
 
 /**
  * 暂时没用上
@@ -32,7 +32,10 @@ public class CurveShape extends MyShape {
 		
 		g.setStroke(new BasicStroke(getStrokeWidth(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		
-		lastPoint = allPoints.get(0);
+		for (Point point : allPoints) {
+			lastPoint = point;
+			break;
+		}
 		for (Point point : allPoints) {
 			g.drawLine(lastPoint.x, lastPoint.y, point.x, point.y);
 			lastPoint = point;

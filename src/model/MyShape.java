@@ -1,4 +1,4 @@
-package drawPane.Model;
+package model;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -14,6 +14,9 @@ public class MyShape implements Serializable  {
 	private int 	strokeWidth;
 	
 	private String shapeType;
+	
+	private Font 	textFont;
+	private String textContent = "";
 
 	public MyShape(Point startPoint, Point endPoint, Color strokeColor, int strokeWidth) {
 		super();
@@ -60,6 +63,9 @@ public class MyShape implements Serializable  {
 	}
 
 	public int getStrokeWidth() {
+		if (strokeWidth < 1) {
+			strokeWidth = 1;
+		}
 		return strokeWidth;
 	}
 
@@ -77,6 +83,20 @@ public class MyShape implements Serializable  {
 		startPoint.y += offsetPoint.y;
 		endPoint.x += offsetPoint.x;
 		endPoint.y += offsetPoint.y;
+	}
+	
+	public void setTextFont(Font textFont) {
+		this.textFont = textFont;
+	}
+	public Font getTextFont() {
+		return textFont;
+	}
+	
+	public void setTextContent(String textContent) {
+		this.textContent = textContent;
+	}
+	public String getTextContent() {
+		return textContent;
 	}
 
 	public void draw(Graphics2D g) {}
