@@ -227,7 +227,7 @@ public class Canvas extends JPanel {
 		if (!isSaved) {
 			int result = showMessage("图像未保存，是否继续操作？");
 			if (result != JOptionPane.YES_OPTION) {
-				return;
+				return; 
 			}
 		}
 		
