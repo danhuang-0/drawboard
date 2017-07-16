@@ -24,7 +24,7 @@ public class ButtonPane extends JPanel implements ActionListener {
 	 */
 	private Canvas canvas;
 	private HashMap<String, Action> actions = new HashMap<String, Action>();
-	private String[] buttonTitles = {"移动", "重绘", "直线", "曲线", "圆形", "矩形", "文字"};
+	private String[] buttonTitles = {"移动", "直线", "曲线", "圆形", "矩形", "文字"};
 	ArrayList<JButton> toolButtons = new ArrayList<JButton>();
 	/**
 	 * 颜色选择区域
@@ -44,10 +44,10 @@ public class ButtonPane extends JPanel implements ActionListener {
 	 * @return
 	 */
 	private JPanel setUpDrawToolPane() {
-		JPanel toolPane = new JPanel(new GridLayout(7, 1, 2, 2));
+		JPanel toolPane = new JPanel(new GridLayout(6, 1, 10, 10));
 		
 		for (String string : buttonTitles) {
-			JButton button = createButton(string, new Dimension(100, 30));
+			JButton button = createButton(string, new Dimension(100, 50));
 			// 添加绘图动作
 			actions.put(string, new Action() {@Override public void doCmd() {canvas.setShapeType(string);}});
 			toolPane.add(button);

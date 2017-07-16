@@ -25,6 +25,7 @@ public class Main {
 		// 菜单栏
 		MenuPane menuPane = new MenuPane();
 		contentPane.add(menuPane, BorderLayout.NORTH);
+		//按钮栏
 		ButtonPane buttonPane = new ButtonPane();
 		contentPane.add(buttonPane, BorderLayout.EAST);
 		menuPane.setCanvas(canvas);
@@ -33,10 +34,10 @@ public class Main {
 //		contentPane.add(new DrawPane(), BorderLayout.CENTER);
 		contentPane.add(TipPaneInstance.getInstance(), BorderLayout.SOUTH);
 		
-		frame.setMinimumSize(new Dimension(1150, 780));
+		frame.setMinimumSize(new Dimension(1125, 700));
 		frame.pack();
 		frame.setVisible(true);
-		frame.setSize(1000, 800);
+		frame.setSize(1000, 710);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 

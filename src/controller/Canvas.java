@@ -116,16 +116,19 @@ public class Canvas extends JPanel {
 				
 				allShapes.add(newShape);
 				selectedShape = newShape;
-				
-				if (shapeType.equals("文字")) {
-					showTextInputDialog();
-					if (newShape != null) {
-						newShape.setTextFont(textFont);
-						newShape.setTextContent(textContent);
-					}
-					
-					repaint();
+
+				if (newShape != null) {
+					newShape.setTextFont(textFont);
+					newShape.setTextContent(textContent);
 				}
+//				if (shapeType.equals("文字")) {
+//					showTextInputDialog();
+//					if (newShape != null) {
+//						newShape.setTextFont(textFont);
+//						newShape.setTextContent(textContent);
+//					}
+//					repaint();
+//				}
 				
 			} catch (Exception e) {
 				System.out.println("----------------------------");
@@ -133,7 +136,7 @@ public class Canvas extends JPanel {
 				System.out.println("----------------------------");
 			}
 		} else {
-			// 除了画图状态，还有移动和缩放
+			// 除了画图状态，还有移动
 			for (int i = allShapes.size(); i > 0; i--) {
 				MyShape myShape = allShapes.get(i-1);
 				if (myShape.isContainPoint(point)) {
@@ -163,10 +166,6 @@ public class Canvas extends JPanel {
 					Point p = new Point(point.x - startPoint.x, point.y - startPoint.y);
 					selectedShape.setOffsetPoint(p);
 					startPoint = point;
-				} else {
-					// 缩放时候的操作
-					selectedShape.setEndPoint(point);
-					
 				}
 				repaint();
 			}
@@ -339,6 +338,7 @@ public class Canvas extends JPanel {
 	
 	/**
 	 * 弹出文本输入框
+	 * 返回输入的内容的字节数
 	 */
 	private void showTextInputDialog() {
 		String text = JOptionPane.showInputDialog(this, "", "请输入文本内容", JOptionPane.QUESTION_MESSAGE);
@@ -350,6 +350,8 @@ public class Canvas extends JPanel {
 			this.textContent = text;
 		}
 	}
+	
+
 	
 	
 	/**
@@ -417,6 +419,12 @@ public class Canvas extends JPanel {
 	
 	public void setShapeType(String shapeType) {
 		this.shapeType = shapeType;
+
+		if (shapeType.equals("文字")) {
+			showTextInputDialog();
+			
+		}
+		
 		repaint();
 	}
 	public String getShapeType() {
@@ -456,7 +464,8 @@ public class Canvas extends JPanel {
 	}
 	
 	public void setShapeLongOffset(int offset) {
-		if (selectedShape != null) {
+		//曲线不参与这个
+		if (selectedShape != null&& !selectedShape.getShapeType().equals("曲线")) {
 			selectedShape.changeEndPoint(offset);
 		}
 		repaint();

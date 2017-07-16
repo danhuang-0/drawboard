@@ -3,7 +3,6 @@ package controller;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.*;
@@ -29,15 +28,8 @@ public class MenuPane extends JPanel implements ActionListener {
 	
 	
 	
-	/**
-	 * 字体选择区域，设置字体，字号，加粗，斜体属性
-	 */
-	private String[] fontNames = {"微软雅黑", "黑体", "宋体", "华文行楷"};
-	private String[] fontSizes = new String[20];
-	private JComboBox<String> fontComboBox;
-	private JComboBox<String> fontSizeComboBox;
 	private Font font = new Font("Default", Font.PLAIN, 12);
-	private ArrayList<JButton> fontStyleBtns = new ArrayList<JButton>();
+	
 
 
 	public MenuPane() {
@@ -45,7 +37,6 @@ public class MenuPane extends JPanel implements ActionListener {
 		this.setLayout(new BorderLayout());
 		
 		this.add(setUpFileToolBar(), BorderLayout.NORTH);
-		this.add(setUpFontSelectPane(), BorderLayout.CENTER);
 		
 	}
 	
@@ -88,68 +79,6 @@ public class MenuPane extends JPanel implements ActionListener {
 	
 	
 	
-	/**
-	 * 生成字体选择面板
-	 * @return
-	 */
-	private JPanel setUpFontSelectPane() {
-		JPanel fontSelectPane = new JPanel();
-		
-		for (int i = 0; i < fontSizes.length; i++) {
-			fontSizes[i] = Integer.toString(20 + 4 * i);
-		}
-		
-		// 字体选择框
-		fontComboBox = new JComboBox<String>(fontNames);
-		fontComboBox.setPreferredSize(new Dimension(120, 50));
-		fontComboBox.setBorder(BorderFactory.createTitledBorder("选择字体"));
-		fontSelectPane.add(fontComboBox);
-		
-		// 字号选择框
-		fontSizeComboBox = new JComboBox<String>(fontSizes);
-		fontSizeComboBox.setPreferredSize(new Dimension(120, 50));
-		fontSizeComboBox.setBorder(BorderFactory.createTitledBorder("选择字号"));
-		fontSelectPane.add(fontSizeComboBox);
-		
-		// 字体属性选择
-		JPanel fontStylePane = new JPanel(new FlowLayout());
-		fontStylePane.setBorder(BorderFactory.createTitledBorder("属性"));
-		fontStylePane.setPreferredSize(new Dimension(80, 50));
-
-		// 加粗， 斜体按钮
-		JButton boldBtn = createButton("B", new Dimension(30, 20));
-		fontStylePane.add(boldBtn);
-		JButton italicBtn = createButton("I", new Dimension(30, 20));
-		fontStylePane.add(italicBtn);
-		
-		fontStyleBtns.add(boldBtn);
-		fontStyleBtns.add(italicBtn);
-		
-		fontSelectPane.add(fontStylePane);
-
-		fontComboBox.addActionListener(this);
-		fontSizeComboBox.addActionListener(this);
-		
-		Action action = new Action() {
-			@Override
-			public void doCmd() {
-				String fontName = (String)fontComboBox.getSelectedItem();
-				String fontSize = (String)fontSizeComboBox.getSelectedItem();
-				int fontBold = font.isBold() ? Font.BOLD : Font.PLAIN;
-				int fontItalic = font.isItalic() ? Font.ITALIC : Font.PLAIN;
-				
-				font = new Font(fontName, fontBold | fontItalic, Integer.parseInt(fontSize));
-				canvas.setTextFont(font);
-			}
-		};
-		
-		actions.put(fontComboBox.getActionCommand(), action);
-		actions.put(boldBtn.getActionCommand(), action);
-		actions.put(italicBtn.getActionCommand(), action);
-		
-		return fontSelectPane;
-	}
-
 	
 	
 	// 根据样式创建按钮
