@@ -6,7 +6,7 @@ package handler;
  * 
  * 将事件交给 ConfigInstance 处理
  * 
- * @author Qi
+ * 
  */
 
 import java.awt.AWTEvent;
@@ -15,7 +15,7 @@ import java.awt.event.*;
 import controller.Canvas;
 
 public class PaintHandler implements 
-	MouseListener, MouseMotionListener, MouseWheelListener, AWTEventListener {
+	MouseListener, MouseMotionListener, AWTEventListener {
 	Canvas canvas = null;
 	
 	
@@ -51,14 +51,7 @@ public class PaintHandler implements
 	public void mouseExited(MouseEvent e) { }
 
 	
-	/**
-	 * 鼠标滚轮事件
-	 */
-	@Override
-	public void mouseWheelMoved(MouseWheelEvent e) {
-		canvas.setShapeStrokeWidthOffset(-e.getWheelRotation());
-	}
-
+	
 	
 	/**
 	 * 监听键盘点击事件
@@ -67,9 +60,22 @@ public class PaintHandler implements
 	public void eventDispatched(AWTEvent event) {
 		KeyEvent keyEvent = (KeyEvent)event;
 		if (keyEvent.getID() == KeyEvent.KEY_PRESSED) {
-			if (keyEvent.getKeyCode() == KeyEvent.VK_DELETE) {
+			if (keyEvent.getKeyCode() == 'R') {
 				canvas.removeSelectedObject();
 			}
+			if (keyEvent.getKeyCode() == '.') {
+				canvas.setShapeStrokeWidthOffset(1);
+			}
+			if (keyEvent.getKeyCode() == ',') {
+				canvas.setShapeStrokeWidthOffset(-1);
+			}
+			if (keyEvent.getKeyCode() == '='){
+				canvas.setShapeLongOffset(1);
+			}
+			if (keyEvent.getKeyCode() == '-'){
+				canvas.setShapeLongOffset(-1);
+			}
+			
 		}
 	}
 

@@ -59,7 +59,6 @@ public class Canvas extends JPanel {
 		// 设置监听对象
 		this.addMouseListener(handler);
 		this.addMouseMotionListener(handler);
-		this.addMouseWheelListener(handler);
 		Toolkit.getDefaultToolkit().addAWTEventListener(handler, AWTEvent.KEY_EVENT_MASK);
 		
 		// 添加图形样式
@@ -455,6 +454,14 @@ public class Canvas extends JPanel {
 		}
 		repaint();
 	}
+	
+	public void setShapeLongOffset(int offset) {
+		if (selectedShape != null) {
+			selectedShape.changeEndPoint(offset);
+		}
+		repaint();
+	}
+	
 	public int getShapeStrokeWidth() {
 		return shapeStrokeWidth;
 	}

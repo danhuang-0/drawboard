@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 
 
 interface Action {
@@ -28,12 +27,7 @@ public class MenuPane extends JPanel implements ActionListener {
 	String[] ToolBarTitles = {"新建", "打开", "保存", "另存为", "关闭"};
 
 	
-	/**
-	 * 画笔选择区域，显示所有可绘制的图形按钮
-	 */
-//	private String[] buttonTitles = {"鼠标", "直线", "圆形", "矩形", "文字"};
-	private String[] buttonTitles = {"移动", "重绘", "直线", "曲线", "圆形", "矩形", "文字"};
-	ArrayList<JButton> toolButtons = new ArrayList<JButton>();
+	
 	
 	/**
 	 * 字体选择区域，设置字体，字号，加粗，斜体属性
@@ -45,26 +39,14 @@ public class MenuPane extends JPanel implements ActionListener {
 	private Font font = new Font("Default", Font.PLAIN, 12);
 	private ArrayList<JButton> fontStyleBtns = new ArrayList<JButton>();
 
-	
-	/**
-	 * 颜色选择区域
-	 */
-	private Color[] colors = {Color.BLACK, Color.WHITE, Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.GRAY, Color.PINK, Color.ORANGE, Color.CYAN};
-	private JPanel selectedColorPane;
-	private ArrayList<JButton> colorBtns = new ArrayList<JButton>();
-	
-//	ArrayList<ArrayList<JButton>> allButtons = new ArrayList<ArrayList<JButton>>();
-
-
 
 	public MenuPane() {
 		
 		this.setLayout(new BorderLayout());
 		
 		this.add(setUpFileToolBar(), BorderLayout.NORTH);
-		this.add(setUpDrawToolPane(), BorderLayout.WEST);
 		this.add(setUpFontSelectPane(), BorderLayout.CENTER);
-		this.add(setUpColorSelectPane(), BorderLayout.EAST);
+		
 	}
 	
 	/**
@@ -103,25 +85,7 @@ public class MenuPane extends JPanel implements ActionListener {
 	}
 	
 	
-	/**
-	 * 生成绘图按钮面板
-	 * @return
-	 */
-	private JPanel setUpDrawToolPane() {
-		JPanel toolPane = new JPanel();
-		
-		for (String string : buttonTitles) {
-			JButton button = createButton(string, new Dimension(70, 50));
-			// 添加绘图动作
-			actions.put(string, new Action() {@Override public void doCmd() {canvas.setShapeType(string);}});
-			toolPane.add(button);
-			
-			toolButtons.add(button);
-			
-		}
-		
-		return toolPane;
-	}
+	
 	
 	
 	/**
@@ -187,32 +151,6 @@ public class MenuPane extends JPanel implements ActionListener {
 	}
 
 	
-	/**
-	 * 生成颜色选择面板
-	 * @return
-	 */
-	private JPanel setUpColorSelectPane() {
-		JPanel colorSelectPane = new JPanel();
-		
-		selectedColorPane = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		selectedColorPane.setBackground(colors[0]);
-		selectedColorPane.setPreferredSize(new Dimension(35, 35));
-		selectedColorPane.setToolTipText("当前已选颜色");
-		colorSelectPane.add(selectedColorPane);
-				
-		JPanel colorSelection = new JPanel(new GridLayout(2, 5, 2, 2));
-		for (Color color : colors) {
-			JButton button = createButton("", new Dimension(25, 25));
-			button.setActionCommand(color.toString());
-			button.setBackground(color);
-			colorSelection.add(button);
-			colorBtns.add(button);
-			actions.put(color.toString(), new Action() { @Override public void doCmd() { canvas.setShapeColor(color); } });
-		}
-		colorSelectPane.add(colorSelection);
-		
-		return colorSelectPane;
-	}
 	
 	// 根据样式创建按钮
 	private JButton createButton(String title, Dimension dimension) {
@@ -233,11 +171,6 @@ public class MenuPane extends JPanel implements ActionListener {
 		if (act != null) {
 			act.doCmd();
 		}
-		
-		Object source = e.getSource();
-		if (source.getClass().equals(JButton.class)) {
-			changeButtonStyle((JButton)source);
-		}
 	}
 	
 	public void setCanvas(Canvas canvas) {
@@ -246,27 +179,6 @@ public class MenuPane extends JPanel implements ActionListener {
 		canvas.setTextFont(font);
 	}
 	
-	// 更改按钮样式
-	private void changeButtonStyle(JButton btn) {
-		// 画笔按钮
-		if (toolButtons.contains(btn)) {
-			for (JButton jButton : toolButtons) {
-				if (jButton.equals(btn)) {
-					jButton.setBorder(BorderFactory.createLoweredBevelBorder());
-				} else {
-					jButton.setBorder(null);
-				}
-			}
-		}
-		
-		if (fontStyleBtns.contains(btn)) {
-			Border border = btn.getBorder() == null ? BorderFactory.createLoweredBevelBorder() : null;
-			btn.setBorder(border);
-		}
-		
-		if (colorBtns.contains(btn)) {
-			selectedColorPane.setBackground(btn.getBackground());
-		}
-	}
+	
 	
 }

@@ -53,6 +53,16 @@ public class MyShape implements Serializable  {
 	public void setEndPoint(Point endPoint) {
 		this.endPoint = endPoint;
 	}
+	
+	public void changeEndPoint( int offset ){
+		double x1 = this.endPoint.x;
+		double x2 = this.startPoint.x;
+		double y1 = this.endPoint.y;
+		double y2 = this.startPoint.y;
+		double length = Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+		this.endPoint.x += offset*((x1-x2)*10/length);
+		this.endPoint.y += offset*((y1-y2)*10/length);
+	}
 
 	public Color getStrokeColor() {
 		return strokeColor;
